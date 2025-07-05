@@ -6,12 +6,11 @@ function qrgen(qrtext)
     qrcode.innerHTML = ""; // Clear previous QR code
     const img=document.createElement("img");
     img.src=response;
-
+    img.style.marginBottom="10px";
     qrcode.appendChild(img);
-
-
+    document.getElementById("t").innerHTML="scan to download";
 }
-
+let gen=1;
 
 let CLOUD_NAME="djom3fmqx";
 let upload_preset="qrgene";
@@ -32,7 +31,7 @@ async function fileqr(File)
         {
             throw new Error(`network error : ${response.status}`);
         }
-        const data=await response.json();
+             const data=await response.json();
         let qrtext=data.secure_url.replace("/upload/", "/upload/fl_attachment/");
         let qrurl=encodeURIComponent(qrtext);
         qrgen(qrurl);
@@ -44,7 +43,10 @@ async function fileqr(File)
     }
 }
 document.getElementById("qrForm").addEventListener("submit",async(e)=>{
+     document.getElementById("t").innerHTML=" ";
     e.preventDefault();
+    document.getElementById("qr").innerHTML = "Generating...";
+
     const file=document.getElementById("qrText").files[0];
     if(file.size>2*Math.pow(1024,3)){
         alert("File size must be between 0 and 2 g");
